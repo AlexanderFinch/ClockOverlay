@@ -1,5 +1,6 @@
 package com.finchapps.clockoverlay;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.PixelFormat;
 import android.net.Uri;
@@ -15,7 +16,7 @@ import android.widget.Button;
 import android.widget.TextClock;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
     private static final int CODE_DRAW_OVER_OTHER_APP_PERMISSION = 2084;
     private WindowManager mWindowManager;
     private View mFloatingView;
@@ -45,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         textClock.setFormat12Hour("hh:mm a");
         textClock.setFormat24Hour(null);
 
-        Button closeButton = mFloatingView.findViewById(R.id.closeButton);
+        Button closeButton = findViewById(R.id.closeButton);
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
