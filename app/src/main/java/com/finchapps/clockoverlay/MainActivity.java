@@ -18,12 +18,13 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity {
     private static final int CODE_DRAW_OVER_OTHER_APP_PERMISSION = 2084;
-    private WindowManager mWindowManager;
-    private View mFloatingView;
+//    private WindowManager mWindowManager;
+//    private View mFloatingView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(this)) {
 
@@ -39,21 +40,28 @@ public class MainActivity extends Activity {
     }
 
     private void initializeView() {
-        setContentView(R.layout.activity_main);
-        mFloatingView = LayoutInflater.from(this).inflate(R.layout.activity_main,null);
-
-        TextClock textClock = mFloatingView.findViewById(R.id.clock);
-        textClock.setFormat12Hour("hh:mm a");
-        textClock.setFormat24Hour(null);
-
-        Button closeButton = findViewById(R.id.closeButton);
-        closeButton.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.go_to_collapsed_view).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                startService(new Intent(MainActivity.this, ClockFloatingViewService.class));
                 finish();
-                System.exit(0);
             }
         });
+//        setContentView(R.layout.activity_main);
+//        mFloatingView = LayoutInflater.from(this).inflate(R.layout.activity_main,null);
+//
+//        TextClock textClock = mFloatingView.findViewById(R.id.clock);
+//        textClock.setFormat12Hour("hh:mm a");
+//        textClock.setFormat24Hour(null);
+//
+//        Button closeButton = findViewById(R.id.closeButton);
+//        closeButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                finish();
+//                System.exit(0);
+//            }
+//        });
 
         //Add the view to the window.
 //        final WindowManager.LayoutParams params = new WindowManager.LayoutParams(

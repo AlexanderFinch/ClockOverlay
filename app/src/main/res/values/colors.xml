@@ -5,5 +5,5 @@
     <color name="colorPrimaryDarkSemi">#ee000000</color>
     <color name="colorTransparent">#00000000</color>
     <color name="colorAccent">#000</color>
-    <color name="textColor">#aaa</color>
+    <color name="textColor">#666</color>
 </resources>
