@@ -18,4 +18,8 @@
         <item name="android:background">@color/colorPrimaryDarkSemi</item>
     </style>
 
+    <style name="AlertDialogCustom" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:background">@color/textColorLight</item>
+    </style>
+
 </resources>

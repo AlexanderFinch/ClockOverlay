@@ -1,19 +1,13 @@
 package com.finchapps.clockoverlay;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.PixelFormat;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.TextClock;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
@@ -22,34 +16,45 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //set content to the initial black screen
         setContentView(R.layout.activity_main);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(this)) {
-            //If the draw over permission is not available open the settings screen
-            //to grant the permission.
-            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-                    Uri.parse("package:" + getPackageName()));
-            startActivityForResult(intent, CODE_DRAW_OVER_OTHER_APP_PERMISSION);
+            //if the permissions are not granted, give the user warning that it will redirect outside
+            //  the app
+            AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this, R.style.AlertDialogCustom);
+            dlgAlert.setMessage("This app requires draw over other app permissions. Taking you to them now...");
+            dlgAlert.setTitle("Special Permissions Required");
+            dlgAlert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+
+                    //If the draw over permission is not available open the settings screen
+                    //to grant the permission.
+                    Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                            Uri.parse("package:" + getPackageName()));
+                    startActivityForResult(intent, CODE_DRAW_OVER_OTHER_APP_PERMISSION);
+                }
+            });
+            dlgAlert.setCancelable(false);
+            dlgAlert.create().show();
+
         } else {
             initializeView();
         }
     }
 
     private void initializeView() {
-        findViewById(R.id.go_to_collapsed_view).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startService(new Intent(MainActivity.this, ClockFloatingViewService.class));
-                finish();
-            }
-        });
+        // start the service
+        startService(new Intent(MainActivity.this, ClockFloatingViewService.class));
+        finish();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //check that the request code is the same that we initialed
         if (requestCode == CODE_DRAW_OVER_OTHER_APP_PERMISSION) {
             //Check if the permission is granted or not.
-            if (resultCode == RESULT_OK) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && Settings.canDrawOverlays(this)) {
                 initializeView();
             } else { //Permission is not available
                 Toast.makeText(this,

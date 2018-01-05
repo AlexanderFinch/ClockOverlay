@@ -1,42 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/collapse_view"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:visibility="visible">
 
-    <!--Root container-->
-    <RelativeLayout
-        android:id="@+id/root_container"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:ignore="UselessParent">
+    <!--Icon of floating widget -->
+    <ImageView
+        android:id="@+id/collapsed_iv"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="8dp"
+        android:src="@mipmap/ic_launcher_round"
+        tools:ignore="ContentDescription" />
 
-        <!--View while view is collapsed-->
-        <RelativeLayout
-            android:id="@+id/collapse_view"
-            android:layout_width="wrap_content"
-            android:visibility="visible"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <!--Icon of floating widget -->
-            <ImageView
-                android:id="@+id/collapsed_iv"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginTop="8dp"
-                android:src="@mipmap/ic_launcher_round"
-                tools:ignore="ContentDescription"/>
-
-            <!--Close button-->
-            <ImageView
-                android:id="@+id/close_btn"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginLeft="40dp"
-                android:src="@mipmap/ic_close_round"
-                tools:ignore="ContentDescription"/>
-        </RelativeLayout>
-    </RelativeLayout>
-</FrameLayout>
+    <!--Close button-->
+    <ImageView
+        android:id="@+id/close_btn"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginLeft="40dp"
+        android:src="@mipmap/ic_close_round"
+        tools:ignore="ContentDescription" />
+</RelativeLayout>

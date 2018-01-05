@@ -3,8 +3,4 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <solid
         android:color="@color/colorPrimaryDarkSemi"/>
-
-    <size
-        android:width="120dp"
-        android:height="120dp"/>
 </shape>

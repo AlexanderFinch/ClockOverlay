@@ -1,9 +1,12 @@
 package com.finchapps.clockoverlay;
 
 import android.app.Service;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.IBinder;
 import android.graphics.PixelFormat;
+import android.os.Build;
+import android.os.IBinder;
+import android.support.v7.app.AlertDialog;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -11,7 +14,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 
 /**
@@ -36,40 +38,56 @@ public class ClockFloatingViewService extends Service {
         super.onCreate();
         //Inflate the floating view layout we created
         mFloatingView = LayoutInflater.from(this).inflate(R.layout.layout_floating_widget, null);
-        mCoveredView = LayoutInflater.from(this).inflate(R.layout.layout_covered_widget, null);
+        mCoveredView = LayoutInflater.from(this).inflate(R.layout.layout_expanded_widget, null);
 
-        //Add the view to the window.
+        // 26 and newer needs a different window type.
+        int windowType = Build.VERSION.SDK_INT >= 26 ? WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY :
+                WindowManager.LayoutParams.TYPE_PHONE;
+
+        //setup params
         final WindowManager.LayoutParams floatingParams = new WindowManager.LayoutParams(
                 WindowManager.LayoutParams.WRAP_CONTENT,
                 WindowManager.LayoutParams.WRAP_CONTENT,
-                WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
+                windowType,
                 WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
                 PixelFormat.TRANSLUCENT);
-
-        //Add the view to the window.
         final WindowManager.LayoutParams coveredParams = new WindowManager.LayoutParams(
                 WindowManager.LayoutParams.MATCH_PARENT,
                 WindowManager.LayoutParams.MATCH_PARENT,
-                WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
+                windowType,
                 WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
                 PixelFormat.TRANSLUCENT);
 
         //Specify the view position
-        floatingParams.gravity = Gravity.TOP | Gravity.LEFT;        //Initially view will be added to top-left corner
+        floatingParams.gravity = Gravity.TOP | Gravity.START;        //Initially view will be added to top-left corner
         floatingParams.x = 0;
         floatingParams.y = 100;
 
         //Add the view to the window
         mWindowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
-        mWindowManager.addView(mFloatingView, floatingParams);
+        if(mWindowManager != null) {
+            mWindowManager.addView(mFloatingView, floatingParams);
+        } else {
+            // if the window can't be added, give the user a warning and close the app
+            AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this, R.style.AlertDialogCustom);
+            dlgAlert.setMessage("This app has encountered an error. Closing now...");
+            dlgAlert.setTitle("Error");
+            dlgAlert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    stopSelf();
+                }
+            });
+            dlgAlert.setCancelable(false);
+            dlgAlert.create().show();
+        }
 
         //The root element of the collapsed view layout
         final View collapsedView = mFloatingView.findViewById(R.id.collapse_view);
         //The root element of the expanded view layout
         final View expandedView = mCoveredView.findViewById(R.id.expanded_container);
 
-        //Set the close button
-        ImageView closeButtonCollapsed = (ImageView) mFloatingView.findViewById(R.id.close_btn);
+        //Set the close button handler for the floating view
+        ImageView closeButtonCollapsed = mFloatingView.findViewById(R.id.close_btn);
         closeButtonCollapsed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -78,10 +96,20 @@ public class ClockFloatingViewService extends Service {
             }
         });
 
-
-        //Set the close button
-        Button closeButton = mCoveredView.findViewById(R.id.minimize);
+        //Set the close button handler for the expanded view
+        Button closeButton = mCoveredView.findViewById(R.id.close);
         closeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mWindowManager.removeView(mCoveredView);
+                stopSelf();
+            }
+        });
+
+
+        //Set the minimize button for the expanded view
+        Button minimizeButton = mCoveredView.findViewById(R.id.minimize);
+        minimizeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 collapsedView.setVisibility(View.VISIBLE);
@@ -92,7 +120,7 @@ public class ClockFloatingViewService extends Service {
 
 
         //Drag and move floating view using user's touch action.
-        mFloatingView.findViewById(R.id.root_container).setOnTouchListener(new View.OnTouchListener() {
+        mFloatingView.findViewById(R.id.collapse_view).setOnTouchListener(new View.OnTouchListener() {
             private int initialX;
             private int initialY;
             private float initialTouchX;
