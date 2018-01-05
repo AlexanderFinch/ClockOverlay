@@ -23,10 +23,10 @@
             <!--Icon of floating widget -->
             <ImageView
                 android:id="@+id/collapsed_iv"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_marginTop="8dp"
-                android:src="@mipmap/ic_launcher"
+                android:src="@mipmap/ic_launcher_round"
                 tools:ignore="ContentDescription"/>
 
             <!--Close button-->
@@ -35,8 +35,7 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_marginLeft="40dp"
-                android:src="@drawable/ic_close"
-                android:background="@color/textColor"
+                android:src="@mipmap/ic_close_round"
                 tools:ignore="ContentDescription"/>
         </RelativeLayout>
     </RelativeLayout>

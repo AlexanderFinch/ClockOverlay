@@ -42,7 +42,7 @@ public class ClockFloatingViewService extends Service {
         final WindowManager.LayoutParams floatingParams = new WindowManager.LayoutParams(
                 WindowManager.LayoutParams.WRAP_CONTENT,
                 WindowManager.LayoutParams.WRAP_CONTENT,
-                WindowManager.LayoutParams.TYPE_PHONE,
+                WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
                 WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
                 PixelFormat.TRANSLUCENT);
 
@@ -50,7 +50,7 @@ public class ClockFloatingViewService extends Service {
         final WindowManager.LayoutParams coveredParams = new WindowManager.LayoutParams(
                 WindowManager.LayoutParams.MATCH_PARENT,
                 WindowManager.LayoutParams.MATCH_PARENT,
-                WindowManager.LayoutParams.TYPE_PHONE,
+                WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
                 WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
                 PixelFormat.TRANSLUCENT);
 
@@ -78,36 +78,6 @@ public class ClockFloatingViewService extends Service {
             }
         });
 
-        //Set the view while floating view is expanded.
-        //Set the play button.
-//        ImageView playButton = (ImageView) mFloatingView.findViewById(R.id.play_btn);
-//        playButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Toast.makeText(ClockFloatingViewService.this, "Playing the song.", Toast.LENGTH_LONG).show();
-//            }
-//        });
-
-
-        //Set the next button.
-//        ImageView nextButton = (ImageView) mFloatingView.findViewById(R.id.next_btn);
-//        nextButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Toast.makeText(ClockFloatingViewService.this, "Playing next song.", Toast.LENGTH_LONG).show();
-//            }
-//        });
-
-
-        //Set the pause button.
-//        ImageView prevButton = (ImageView) mFloatingView.findViewById(R.id.prev_btn);
-//        prevButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Toast.makeText(ClockFloatingViewService.this, "Playing previous song.", Toast.LENGTH_LONG).show();
-//            }
-//        });
-
 
         //Set the close button
         Button closeButton = mCoveredView.findViewById(R.id.minimize);
@@ -120,22 +90,6 @@ public class ClockFloatingViewService extends Service {
             }
         });
 
-
-        //Open the application on thi button click
-//        ImageView openButton = (ImageView) mFloatingView.findViewById(R.id.open_button);
-//        openButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                //Open the application  click.
-//                Intent intent = new Intent(ClockFloatingViewService.this, MainActivity.class);
-//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                startActivity(intent);
-//
-//
-//                //close the service and remove view from the view hierarchy
-//                stopSelf();
-//            }
-//        });
 
         //Drag and move floating view using user's touch action.
         mFloatingView.findViewById(R.id.root_container).setOnTouchListener(new View.OnTouchListener() {

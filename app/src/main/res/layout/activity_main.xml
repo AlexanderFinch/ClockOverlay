@@ -33,15 +33,17 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Clock Overlay"
-                android:textSize="42sp" />
+                android:textSize="42sp"
+                android:textAlignment="center"/>
 
             <TextClock
                 android:id="@+id/clock"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textAlignment="center"
                 android:textSize="42sp" />
         </LinearLayout>
     </android.support.constraint.ConstraintLayout>
