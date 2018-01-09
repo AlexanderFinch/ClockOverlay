@@ -66,7 +66,7 @@ public class ClockFloatingViewService extends Service {
         //Add the view to the window
         mWindowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
         if(mWindowManager != null) {
-            mWindowManager.addView(mFloatingView, floatingParams);
+            mWindowManager.addView(mCoveredView, coveredParams);
         } else {
             // if the window can't be added, give the user a warning and close the app
             AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this, R.style.AlertDialogCustom);
@@ -92,6 +92,7 @@ public class ClockFloatingViewService extends Service {
             @Override
             public void onClick(View view) {
                 //close the service and remove the from from the window
+                mWindowManager.removeView(mFloatingView);
                 stopSelf();
             }
         });
@@ -115,6 +116,7 @@ public class ClockFloatingViewService extends Service {
                 collapsedView.setVisibility(View.VISIBLE);
                 expandedView.setVisibility(View.GONE);
                 mWindowManager.removeView(mCoveredView);
+                mWindowManager.addView(mFloatingView, floatingParams);
             }
         });
 
@@ -155,6 +157,7 @@ public class ClockFloatingViewService extends Service {
                                 collapsedView.setVisibility(View.GONE);
                                 expandedView.setVisibility(View.VISIBLE);
                                 mWindowManager.addView(mCoveredView, coveredParams);
+                                mWindowManager.removeView(mFloatingView);
                             }
                         }
                         return true;
@@ -187,6 +190,5 @@ public class ClockFloatingViewService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (mFloatingView != null) mWindowManager.removeView(mFloatingView);
     }
 }
