@@ -8,6 +8,8 @@ import android.os.Build;
 import android.provider.Settings;
 import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
@@ -17,7 +19,7 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //set content to the initial black screen
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.layout_expanded_widget);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(this)) {
             //if the permissions are not granted, give the user warning that it will redirect outside
@@ -44,9 +46,18 @@ public class MainActivity extends Activity {
     }
 
     private void initializeView() {
-        // start the service
-        startService(new Intent(MainActivity.this, ClockFloatingViewService.class));
-        finish();
+
+        //Set the minimize button for the expanded view
+        Button minimizeButton = findViewById(R.id.minimize);
+        minimizeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // start the service
+                startService(new Intent(MainActivity.this, ClockFloatingViewService.class));
+                finish();
+            }
+        });
+
     }
 
     @Override

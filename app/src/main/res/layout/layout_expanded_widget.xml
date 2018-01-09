@@ -12,6 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/colorTransparent"
+        android:textColor="@color/textColor"
         android:textSize="42sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -33,7 +34,7 @@
             android:background="@drawable/round_button"
             android:foreground="@drawable/dash"
             android:textColor="@color/textColor"
-            android:textSize="42sp"
+            android:textSize="36sp"
             style="?android:attr/buttonBarButtonStyle">
 
         </Button>
@@ -47,7 +48,7 @@
             android:background="@drawable/round_button"
             android:text="X"
             android:textColor="@color/textColor"
-            android:textSize="42sp"
+            android:textSize="36sp"
             style="?android:attr/buttonBarButtonStyle"/>
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

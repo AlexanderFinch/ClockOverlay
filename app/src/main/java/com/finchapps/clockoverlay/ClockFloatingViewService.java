@@ -17,7 +17,8 @@ import android.widget.ImageView;
 
 
 /**
- * Created by finchrat on 12/26/17.
+ * Created by Alex Finch on 12/26/17.
+ * with assistance from https://www.androidhive.info/2016/11/android-floating-widget-like-facebook-chat-head/
  */
 
 public class ClockFloatingViewService extends Service {
@@ -66,7 +67,7 @@ public class ClockFloatingViewService extends Service {
         //Add the view to the window
         mWindowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
         if(mWindowManager != null) {
-            mWindowManager.addView(mCoveredView, coveredParams);
+            mWindowManager.addView(mFloatingView, coveredParams);
         } else {
             // if the window can't be added, give the user a warning and close the app
             AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this, R.style.AlertDialogCustom);
@@ -85,17 +86,6 @@ public class ClockFloatingViewService extends Service {
         final View collapsedView = mFloatingView.findViewById(R.id.collapse_view);
         //The root element of the expanded view layout
         final View expandedView = mCoveredView.findViewById(R.id.expanded_container);
-
-        //Set the close button handler for the floating view
-        ImageView closeButtonCollapsed = mFloatingView.findViewById(R.id.close_btn);
-        closeButtonCollapsed.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //close the service and remove the from from the window
-                mWindowManager.removeView(mFloatingView);
-                stopSelf();
-            }
-        });
 
         //Set the close button handler for the expanded view
         Button closeButton = mCoveredView.findViewById(R.id.close);

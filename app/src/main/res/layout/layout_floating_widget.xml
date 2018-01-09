@@ -15,13 +15,4 @@
         android:layout_marginTop="8dp"
         android:src="@mipmap/ic_launcher_round"
         tools:ignore="ContentDescription" />
-
-    <!--Close button-->
-    <ImageView
-        android:id="@+id/close_btn"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginStart="40dp"
-        android:src="@mipmap/ic_close_round"
-        tools:ignore="ContentDescription" />
 </RelativeLayout>
